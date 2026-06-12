@@ -1,0 +1,44 @@
+# Ignore OneDrive temporary files
+~$*
+
+
+# 1. Ignore ALL R data files
+*.rds
+*.RData
+*.zip
+*.csv
+*.xlsx
+*.pdf
+*.dta
+
+
+# But do NOT ignore files that contain "encrypted" anywhere in the name
+!*encrypted*.rds
+!*encrypted*.RData
+
+Dummy files/
+
+# History files
+.Rhistory
+.Rapp.history
+
+
+# Session data files (can be huge and mess up Git)
+.RData
+.RData-tmp
+.png
+
+# --- RStudio Specifics ---
+# RStudio project configuration and history
+.Rproj.user/
+
+
+# --- R Markdown / Knitr Temporary Files ---
+# Ignore cache and intermediate rendering folders
+/*_cache/
+/*_files/
+.ipynb_checkpoints/
+
+# --- Package Development Files ---
+# If you build packages, ignore the check directories
+.Rcheck/
