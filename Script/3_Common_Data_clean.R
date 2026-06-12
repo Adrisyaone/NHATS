@@ -2,7 +2,8 @@
 rm(list=ls())
 
 # load packages and functions
-source("Script/1 Load pkgs and functions.R")
+source("Script/1 Load pkgs.R")
+source("Script/Functions/my_functions.R")
 
 # load processed data
 cdt<-readRDS("Dataset/Processed/cdt.RDS")
