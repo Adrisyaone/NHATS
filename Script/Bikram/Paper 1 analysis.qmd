@@ -1,0 +1,16 @@
+---
+title: "Paper 1 analysis"
+format: html
+---
+
+## Time-varying heart disease and risk of Cognitive Decline among older adults: A survival Analysis Using NHATS Data
+
+Bikram Adhikari^1\*^, Xinhua Yu^1\*^
+
+**Affiliation**:
+
+^1^ University of Memphis, School of Public Health
+
+\*: Corresponding author
+
+**Email:** bdhikari\@memphis.edu and xyu2\@memphis.edu

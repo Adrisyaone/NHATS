@@ -6,16 +6,16 @@ source("Script/1 Load pkgs.R")
 source("Script/Functions/my_functions.R")
 
 # load processed data
-cdt<-readRDS("Dataset/Processed/cdt.RDS")
+cdt<-read_encrypt_data("Dataset/Processed/cdt_V1_encrypted.RDS")
 
 
 # arrange variables
 cdt<-cdt %>% 
-  mutate(spid=spid.x,
+  mutate(spid=spid,
          Wave=Wave.x,
          income=as.numeric(as.character(iatoincim1)),
          education=el1higstschl) %>% 
-  select (spid, Wave, id, 6:194, spid.x) %>% 
+  select (spid, Wave, id, 1:190, spid) %>% 
   arrange(spid, Wave) %>% 
   group_by(spid) %>% 
   fill(income, .direction="down") %>% 
@@ -70,7 +70,7 @@ cdt<-cdt %>%
          
          depressionSym= ifelse(phq2<3, "No/Low","Possible depression"),
          anxSym= ifelse(gad2<3, "No/Low","Possible anxiety"),
-         dep_anx=ifelse(depressionSym=="Possible depression"|gad2=="Possible anxiety", "Yes", "No"),
+         dep_anx=ifelse(depressionSym=="Possible depression"|anxSym=="Possible anxiety", "Yes", "No"),
          
          #physical activity
          pa=ifelse(
@@ -99,7 +99,7 @@ cdt<-cdt %>%
          
          overall_comorbid = sum(heartdisease, arthritis,osteoporosis, diabetes,lungdisease,cancer,highbp,stroke, na.rm = T),
          overall_comorbid_cat = ifelse(overall_comorbid==0, "Zero",ifelse(overall_comorbid==1, "1 condition", ">1 conditions")),
-         comorbid= sum(arthritis,diabetes,lungdisease,cancer,highbp,stroke, na.rm = T),
+         comorbid= rowSums(cbind(arthritis,diabetes,lungdisease,cancer,highbp,stroke, na.rm = T)),
          comorbid_cat=ifelse(comorbid>1, ">1", "Zero"),
          
          # sleep difficulties
@@ -248,22 +248,27 @@ cdt <- cdt %>%
     
     Dementia_event =ifelse(no_dementia==0, 1, 0),
     
-    died = ifelse(status==62, 1, 0)
+    died = ifelse(rstatus==62, 1, 0)
   )
 
 
 
 cdt<-cdt %>% 
-  group_by(spid) %>% 
+  group_by(spid) %>%
+  arrange(Wave,spid) %>% 
   mutate(died_all = ifelse(any(died == 1), 1, 0)) %>%
   ungroup() %>% 
   mutate(rdintvwrage= ifelse(spid=="10009274" & Wave==1, 85,ifelse(spid=="10009274" & Wave==2, 86,rdintvwrage ) ),
-         rdintvwrage= ifelse(spid=="10012378" & Wave==1, 89,ifelse(spid=="10012378" & Wave==2, 90,rdintvwrage ) ))
+         rdintvwrage= ifelse(spid=="10012378" & Wave==1, 89,ifelse(spid=="10012378" & Wave==2, 90,rdintvwrage ) ),
+         enrolled_wave=ifelse(yearsample==2011, 1, ifelse(yearsample==2015, 2, ifelse(yearsample==2022, 3, ifelse(yearsample==2023, 4, NA)))))
 
 
 
 
 
-# save data
-saveRDS(cdt, "Dataset/Processed/cdt_cleaned.RDS")  
+# save data (open)
+saveRDS(cdt, "Dataset/Processed/cdt_V2.RDS")  
+
+# encrypted (protected)
+save_encrypted_data(file = cdt, path ="Dataset/Processed", name = "cdt_v2_encrypted" )
   

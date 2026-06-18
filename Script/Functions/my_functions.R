@@ -24,22 +24,6 @@ read_encrypt_data<-function(path){
   
 }
 
-# 1. Prompt for your secret password
-password <- getPass::getPass("Enter the data password: ")
-
-# 2. Rebuild the exact 32-byte security key using the password
-raw_key <- sodium::sha256(charToRaw(password))
-key <- cyphr::key_sodium(raw_key)
-
-# 3. Decrypt the file straight into an R object/dataframe
-my_data <- cyphr::decrypt(
-  readRDS("data_encrypted.rds"), 
-  key
-)
-
-# 4. Confirm the data loaded successfully
-print("Data loaded successfully!")
-head(my_data)
 
 # Function 0
 pull_data<-function(data_list, wave_range=1:14,wt_range=0:56, pattern="^(hc|cg|fl|r|cp|rd|ia|sd|hh|hw|rl|pn|pa|wr)[0-9]+",tracker=c("SP", "OP", "TR", "SEN")){
@@ -55,8 +39,8 @@ pull_data<-function(data_list, wave_range=1:14,wt_range=0:56, pattern="^(hc|cg|f
   names(data_list_imported) <- paste0("Round", round_numbers)
   
   # select variables for each waves 
-  wave<-wave_range
-  wt=wt_range
+  wave = wave_range
+  wt = wt_range
   
   
   # Apply variable selection to all datasets in the list

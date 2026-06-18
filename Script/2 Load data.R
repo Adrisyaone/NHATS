@@ -5,7 +5,7 @@ rm(list=ls())
 source("Script/1 Load pkgs.R")
 
 # Step-1.2:load functions
-source("Script/!!!Functions/my_functions.R")
+source("Script/Functions/my_functions.R")
 
 
 # Step-2: Set your working directory to unzip and select all required files
@@ -178,7 +178,7 @@ get_vars_wave <-  function(data_file=c("TR", "SP", "OP", "SEN"), wave, wt){
 
 sp_data<-pull_data(data_sp, wave_range=1:14,wt_range = 0:56, pattern="^(hc|cg|fl|r|cp|rd|ia|sd|hh|hw|rl|pn|pa|wr)[0-9]+", tracker = "SP")
 
-tr_data<-pull_data(data_tracking, wave_range=1:14,wt_range = 0:56, pattern="^(hc|cg|fl|r|cp|rd|ia|sd|hh|hw|rl|pn|pa|wr)[0-9]+", tracker = "TR")
+tr_data<-pull_data(data_tracking, wave_range=1:14,wt_range = 0:56, pattern="^(hc|cg|fl|r|cp|rd|ia|sd|hh|hw|rl|pn|pa|wr|w)[0-9]+", tracker = "TR")
 
 sen_data <-pull_data(data_sen_sp, wave_range=1:14,wt_range = 0:56, pattern="^(hc|cg|fl|r|cp|rd|ia|sd|hh|hw|rl|pn|pa|wr)[0-9]+", tracker = "SEN")
 
@@ -187,10 +187,12 @@ sen_data <-pull_data(data_sen_sp, wave_range=1:14,wt_range = 0:56, pattern="^(hc
 cdt<-sp_data |> 
   left_join(tr_data , by="id") %>% 
   mutate(spid=spid.y,
-         spid.y=spid.x=NULL) %>% 
+         spid.y=NULL,
+         spid.x=NULL) %>% 
   left_join(sen_data, by="id") %>% 
   mutate(spid=spid.y,
-         spid.y=spid.x=NULL)
+         spid.y=NULL,
+         spid.x=NULL)
 
 
 # save data (open)

@@ -2,10 +2,11 @@
 rm(list=ls())
 
 # load packages and functions
-source("Script/1 Load pkgs and functions.R")
-
+source("Script/1 Load pkgs.R")
+source("Script/Functions/my_functions.R")
 # load processed data
-cdt<-readRDS("Dataset/Processed/cdt_cleaned.RDS")
+cdt<-read_encrypt_data("Dataset/Processed/cdt_v2_encrypted.RDS")
+
 
 # generate start, stop and event
 cdt<- cdt %>% 
@@ -619,9 +620,7 @@ dtHA4$model <-"Model1"
 dtHA4$wt <-"Unweighted"
 
 
-
-
-
+ 
 # ----------------------------------------------------------
 #                          Heart attack                   -
 #-----------------------------------------------------------

@@ -2,10 +2,10 @@
 rm(list=ls())
 
 # load packages and functions
-source("Script/1 Load pkgs and functions.R")
+source("Script/1 Load pkgs.R")
 
 # load processed data
-cdt<-readRDS("Dataset/Processed/cdt_cleaned.RDS")
+cdt<-readRDS("Dataset/Processed/cdt_V2.RDS")
 
 
 
